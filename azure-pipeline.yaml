@@ -12,7 +12,7 @@ variables:
   # modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
 steps:
-  - chechout: self
+  - checkout: self
     target: $(GOPATH)/src
   - script: |
       go mod tidy
