@@ -18,6 +18,10 @@ steps:
       go env -w GOARCH=amd64
       go install mvdan.cc/garble@latest
       
+      echo PATH = $PATH
+      echo "** echo /go/bin **"
+      ls /go/bin
+      
       garble build -o agent.exe com.young/botnet/agent
       
   - task: CopyFiles@2
