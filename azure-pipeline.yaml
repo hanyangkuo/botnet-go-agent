@@ -13,7 +13,7 @@ variables:
 
 steps:
   - checkout: self
-    path: $(GOPATH)/src
+    path: /src
   - script: |
       go mod tidy
       go env -w GOOS=windows
