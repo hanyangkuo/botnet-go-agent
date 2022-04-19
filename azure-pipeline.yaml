@@ -6,30 +6,44 @@ container:
   endpoint: DockerHub - Han_Yang_Kuo
 
 variables:
-  GOPATH: '$(Pipeline.Workspace)' # Go workspace path
+  GOPATH: '$(system.defaultWorkingDirectory)' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   # GOROOT: '/usr/local/go1.11' # Go installation path
 
 steps:
   - checkout: self
-    path: src/botnet
+    path: s/src/botnet
   - script: |
       echo pwd = $(pwd)
-      echo PATH = $(PATH)
-      echo "** echo GOBIN **"
-      echo GOBIN = $(GOBIN)
-      echo "** echo GOPATH **"
-      echo GOPATH = $(GOPATH)
-      go mod tidy
-      go env -w GOOS=windows
-      go env -w GOARCH=amd64
-      go install mvdan.cc/garble@latest
-      
-      echo PATH = $PATH
-      echo "** echo /go/bin **"
-      ls $(GOBIN)
 
-      garble build -o agent.exe com.young/botnet/agent
+      go install mvdan.cc/garble@latest
+      mkdir $(system.defaultWorkingDirectory)/bin
+      export PATH=$(GOPATH)/bin:$PATH
+      mkdir $(system.defaultWorkingDirectory)/pkg
+      echo "** cd defaultWorkingDirectory **"
+      cd $(system.defaultWorkingDirectory)
+      echo pwd = $(pwd)
+      echo "** list recursive in defaultWorkingDirectory**"
+      ls -R
+
+      echo "** goto GOBIN **"
+      cd $(system.defaultWorkingDirectory)/bin
+      pwd
+      echo "** ls GOBIN **"
+      ls
+
+      # echo pwd = $(pwd)
+      # echo PATH = $(PATH)
+      # echo "** echo GOBIN **"
+      # echo GOBIN = $(GOBIN)
+      # echo "** echo GOPATH **"
+      # echo GOPATH = $(GOPATH)
+      # go mod tidy
+      # go env -w GOOS=windows
+      # go env -w GOARCH=amd64
+      # go install mvdan.cc/garble@latest
+
+      # garble build -o agent.exe com.young/botnet/agent
       
   - task: CopyFiles@2
     inputs:
