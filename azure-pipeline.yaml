@@ -23,7 +23,7 @@ steps:
       echo $(system.defaultWorkingDirectory)
 
 
-      sudo go install mvdan.cc/garble@latest
+      go install mvdan.cc/garble@latest
 
       echo pwd = $(pwd)
       echo "** list recursive in defaultWorkingDirectory**"
