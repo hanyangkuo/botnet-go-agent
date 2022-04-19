@@ -12,41 +12,13 @@ variables:
 
 steps:
   - checkout: self
-    path: go/src
+    path: go/src/botnet
   - script: |
       export PATH=$(GOPATH)/bin:$PATH
-      
-      echo "** cd Pipeline.Workspace **"
-      echo $(Pipeline.Workspace)
-      
-      echo "** cd defaultWorkingDirectory **"
-      echo $(system.defaultWorkingDirectory)
-
-
       go install mvdan.cc/garble@latest
+      go mod tidy
 
-      echo pwd = $(pwd)
-      echo "** list recursive in defaultWorkingDirectory**"
-      ls -R
-
-      echo "** goto GOBIN **"
-      cd $(GOBIN)
-      pwd
-      echo "** ls GOBIN **"
-      ls
-
-      # echo pwd = $(pwd)
-      # echo PATH = $(PATH)
-      # echo "** echo GOBIN **"
-      # echo GOBIN = $(GOBIN)
-      # echo "** echo GOPATH **"
-      # echo GOPATH = $(GOPATH)
-      # go mod tidy
-      # go env -w GOOS=windows
-      # go env -w GOARCH=amd64
-      # go install mvdan.cc/garble@latest
-
-      # garble build -o agent.exe com.young/botnet/agent
+      garble build -o agent.exe com.young/botnet/agent
       
   - task: CopyFiles@2
     inputs:
