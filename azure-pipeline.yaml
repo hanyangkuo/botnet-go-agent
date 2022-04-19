@@ -6,28 +6,31 @@ container:
   endpoint: DockerHub - Han_Yang_Kuo
 
 variables:
-  GOPATH: '$(system.defaultWorkingDirectory)' # Go workspace path
+  GOPATH: '$(Agent.HomeDirectory)/go' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   # GOROOT: '/usr/local/go1.11' # Go installation path
 
 steps:
-  - checkout: self
-    path: s/src/botnet
   - script: |
-      echo pwd = $(pwd)
+      export PATH=$(GOPATH)/bin:$PATH
+      
+      echo "** cd Agent.HomeDirectory **"
+      echo $(Agent.HomeDirectory)
+      
+      echo "** cd defaultWorkingDirectory **"
+      echo $(system.defaultWorkingDirectory)
+
+      echo "** cd SourcesDirectory **"
+      echo $(Build.SourcesDirectory)
 
       go install mvdan.cc/garble@latest
-      mkdir $(system.defaultWorkingDirectory)/bin
-      export PATH=$(GOPATH)/bin:$PATH
-      mkdir $(system.defaultWorkingDirectory)/pkg
-      echo "** cd defaultWorkingDirectory **"
-      cd $(system.defaultWorkingDirectory)
+
       echo pwd = $(pwd)
       echo "** list recursive in defaultWorkingDirectory**"
       ls -R
 
       echo "** goto GOBIN **"
-      cd $(system.defaultWorkingDirectory)/bin
+      cd $(GOBIN)
       pwd
       echo "** ls GOBIN **"
       ls
