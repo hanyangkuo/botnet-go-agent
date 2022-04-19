@@ -6,24 +6,24 @@ container:
   endpoint: DockerHub - Han_Yang_Kuo
 
 variables:
-  GOPATH: '$(Agent.HomeDirectory)/go' # Go workspace path
+  GOPATH: '$(Pipeline.Workspace)/go' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   # GOROOT: '/usr/local/go1.11' # Go installation path
 
 steps:
+  - checkout: self
+    path: go/src
   - script: |
       export PATH=$(GOPATH)/bin:$PATH
       
-      echo "** cd Agent.HomeDirectory **"
-      echo $(Agent.HomeDirectory)
+      echo "** cd Pipeline.Workspace **"
+      echo $(Pipeline.Workspace)
       
       echo "** cd defaultWorkingDirectory **"
       echo $(system.defaultWorkingDirectory)
 
-      echo "** cd SourcesDirectory **"
-      echo $(Build.SourcesDirectory)
 
-      go install mvdan.cc/garble@latest
+      sudo go install mvdan.cc/garble@latest
 
       echo pwd = $(pwd)
       echo "** list recursive in defaultWorkingDirectory**"
