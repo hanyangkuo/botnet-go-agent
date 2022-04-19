@@ -13,8 +13,9 @@ variables:
 
 steps:
   - checkout: self
-    path: /src
+    path: src/botnet
   - script: |
+      echo pwd = $(pwd)
       go mod tidy
       go env -w GOOS=windows
       go env -w GOARCH=amd64
