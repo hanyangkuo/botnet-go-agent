@@ -9,7 +9,7 @@ variables:
   GOPATH: '$(Pipeline.Workspace)' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   # GOROOT: '/usr/local/go1.11' # Go installation path
-  
+
 steps:
   - checkout: self
     path: src/botnet
@@ -27,7 +27,7 @@ steps:
       
       echo PATH = $PATH
       echo "** echo /go/bin **"
-      ls /go/bin
+      ls $(GOBIN)
 
       garble build -o agent.exe com.young/botnet/agent
       
