@@ -15,11 +15,12 @@ steps:
     path: go/src/botnet
   - script: |
       export PATH=$(GOPATH)/bin:$PATH
+      go install mvdan.cc/garble@latest
+
       go env -w GOOS=windows
       go env -w GOARCH=amd64
       echo ** show go environment **
       go env
-      go install mvdan.cc/garble@latest
       go mod tidy
       
       echo ** build go execuable **
