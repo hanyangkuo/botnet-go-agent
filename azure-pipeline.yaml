@@ -16,15 +16,17 @@ steps:
   - script: |
       export PATH=$(GOPATH)/bin:$PATH
       go install mvdan.cc/garble@latest
-
+    displayName: Prepare Environment
+      
+  - script: |
       go env -w GOOS=windows
       go env -w GOARCH=amd64
       echo ** show go environment **
       go env
       go mod tidy
-      
       echo ** build go execuable **
       garble build -o agent.exe com.young/botnet/agent
+    displayName: Build Execuable
       
   - task: CopyFiles@2
     inputs:
